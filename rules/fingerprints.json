@@ -64,7 +64,7 @@
   },
   {
     "name": "mariadb",
-    "pattern": "(?s)^(?:.{4})?\\x0a([0-9]+\\.[0-9]+\\.[0-9]+)[^\\x00\\r\\n]*MariaDB[^\\x00\\r\\n]*\\x00",
+    "pattern": "(?s)^(?:.{4})?\\x0a(?:5\\.5\\.5-)?([0-9]+\\.[0-9]+\\.[0-9]+)[^\\x00\\r\\n]*MariaDB[^\\x00\\r\\n]*\\x00",
     "protocol": "MySQL",
     "product": "MariaDB",
     "version_group": 1,
@@ -91,7 +91,7 @@
   },
   {
     "name": "redis-response",
-    "pattern": "(?i)^(?:\\+PONG(?:\\r?\\n)?$|-NOAUTH Authentication required\\.|-ERR wrong number of arguments for .+ command)",
+    "pattern": "(?i)^(?:\\+PONG(?:\\r?\\n)?$|-NOAUTH\\b[^\\r\\n]*|-WRONGPASS\\b[^\\r\\n]*|-ERR (?:wrong number of arguments|unknown command|syntax error|Protocol error)\\b[^\\r\\n]*)",
     "protocol": "Redis",
     "product": "Redis",
     "version_group": 0,
@@ -100,7 +100,7 @@
   },
   {
     "name": "proftpd",
-    "pattern": "(?i)^220[^\\r\\n]*\\bProFTPD(?:[ /]+([0-9][A-Za-z0-9.]*))?",
+    "pattern": "(?im)^220[^\\r\\n]*?\\bProFTPD(?:[ /]+([0-9][A-Za-z0-9.]*))?",
     "protocol": "FTP",
     "product": "ProFTPD",
     "version_group": 1,
@@ -109,7 +109,7 @@
   },
   {
     "name": "vsftpd",
-    "pattern": "(?i)^220[^\\r\\n]*\\bvsFTPd(?:[ /]+([0-9][A-Za-z0-9.]*))?",
+    "pattern": "(?im)^220[^\\r\\n]*?\\bvsFTPd(?:[ /]+([0-9][A-Za-z0-9.]*))?",
     "protocol": "FTP",
     "product": "vsFTPd",
     "version_group": 1,
@@ -118,11 +118,20 @@
   },
   {
     "name": "pure-ftpd",
-    "pattern": "(?i)^220[^\\r\\n]*\\bPure-FTPd(?:[ /]+([0-9][A-Za-z0-9.]*))?",
+    "pattern": "(?im)^220[^\\r\\n]*?\\bPure-FTPd(?:[ /]+([0-9][A-Za-z0-9.]*))?",
     "protocol": "FTP",
     "product": "Pure-FTPd",
     "version_group": 1,
     "os_pattern": "",
     "confidence": 0.9
+  },
+  {
+    "name": "ftp",
+    "pattern": "(?im)^220(?:[ -])[^\\r\\n]*\\bFTP\\b[^\\r\\n]*",
+    "protocol": "FTP",
+    "product": "",
+    "version_group": 0,
+    "os_pattern": "",
+    "confidence": 0.7
   }
 ]

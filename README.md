@@ -105,6 +105,6 @@ compose.yaml        内部网络、健康依赖和权限配置
 
 `go test ./...` 验证示例协议、SSH/MySQL 细节、非标准端口、大小写响应头、空/截断/未知输入以及 API 错误处理；`go vet ./...` 检查静态问题。测试来源位于 `internal/fingerprint/engine_test.go` 和 `internal/httpapi/handler_test.go`，结果可以通过上述命令复现。
 
-初始化验证：Go 测试、静态检查和编译通过；本地独立 server/client 联调返回 20 条结果，其中 2 条为 unknown，健康检查和优雅退出通过；`docker compose config --quiet` 通过。当前 Docker Engine 未启动，因此尚未实测镜像构建及 Compose 容器流程。
+初始化验证：Go 测试、静态检查和编译通过；本地独立 server/client 联调返回 20 条结果，其中 2 条为 unknown，健康检查和优雅退出通过；`docker compose config --quiet` 通过。Dockerfile 和 Compose 已完成静态审查；按当前要求未执行镜像构建及 Compose 容器流程。
 
-后续应扩充未见 Banner 的回归数据、补充二进制编码支持，并在启动的 Docker Engine 上验证完整 Compose 流程。初始化阶段没有执行 GitHub 上传；最终提交需要另行核验仓库可访问性和题目截止时间。
+后续应扩充未见 Banner 的回归数据、补充二进制编码支持。初始化阶段没有执行 GitHub 上传；最终提交需要另行核验仓库可访问性和题目截止时间。

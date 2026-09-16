@@ -4,17 +4,20 @@ services:
       context: .
       target: server
     restart: unless-stopped
+    # The Go process does not need to write files or acquire Linux capabilities.
     read_only: true
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
     mem_limit: 128m
     cpus: 1.0
     pids_limit: 64
+    stop_grace_period: 15s
     logging:
       driver: json-file
       options: {max-size: "10m", max-file: "3"}
     networks: [backend]
     healthcheck:
+      # The scratch image has no shell/curl; the server binary performs the check.
       test: [CMD, /server, -healthcheck, "http://127.0.0.1:8080/health"]
       interval: 5s
       timeout: 3s
@@ -28,6 +31,7 @@ services:
       target: client
     depends_on:
       server:
+        # Startup ordering alone is insufficient: wait for a successful HTTP check.
         condition: service_healthy
     command: [-input, /data/sample.json, -server, "http://server:8080"]
     restart: "no"
@@ -45,4 +49,5 @@ services:
       - ./data:/data:ro
 networks:
   backend:
+    # No host port is published and this application network has no external route.
     internal: true
